@@ -19,7 +19,13 @@ int main(){
     
     if(coeffs.a==0){
         std::cout<<"This is not a quadratic equation, a=0, I refuse to solve this. Try again.";
-        exit(1);
+        exit(1); //if I put return it just exit the func (not the main) while exitr kills the program
+        /*
+        When I call return in main(), destructors will be called for my locally scoped objects. 
+        If I call exit(), no destructor will be called for my locally scoped objects! Re-read that. 
+        exit() does not return. That means that once I call it, there are "no backsies." 
+        Any objects that you've created in that function will not be destroyed
+        */
     }
         
     double discr = coeffs.b*coeffs.b - 4*coeffs.a*coeffs.c;
