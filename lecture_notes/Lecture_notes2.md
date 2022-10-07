@@ -291,8 +291,8 @@ Snippet 3:
 //BAD CODE AHEAD, DO NOT COPY BY ACCIDENT!
 class CMyClass{
     int a;
-    CMyClass(int x):a(x){};
-}
+    CMyClass(int x):a(x){}; #this is wrong, it is not public
+} # ; missed
 
 int main(){
    CMyClass c(7);
@@ -305,7 +305,7 @@ Snippet 4:
 ```
 int main(){
 int x=4;
-int& y;
+int& y; #this is wrong, you need to initialize a reference at declaration
 
 ......
 }
