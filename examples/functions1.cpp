@@ -2,7 +2,7 @@
 
 //simple function example
 //it's just a syntax example, it's not optimal at all
-int add_two(int a){
+int add_two(int a){ //works but not good
     return a+2;
 }
 
@@ -48,14 +48,14 @@ int main(){
     //"auto" keyword is very useful when you don't remember the type of the function
     //or when it is complicated
     auto b=add_two(a);
-    std::cout<<" a is "<<a<<std::endl;
-    std::cout<<" b is "<<b<<std::endl;
+    std::cout<<" a is "<<a<<std::endl;  //a is 2
+    std::cout<<" b is "<<b<<std::endl;  //b is 4
     add_two_wrong(a);
-    std::cout<<"after calling a wrong function a is "<<a<<std::endl;
+    std::cout<<"after calling a wrong function a is "<<a<<std::endl;   //a is still 2
     add_two_ref(a);
-    std::cout<<"after calling a correct function a is "<<a<<std::endl;
+    std::cout<<"after calling a correct function a is "<<a<<std::endl; //a is 4
     //c-style
-    add_two_p(&a);
+    add_two_p(&a);  //a is 6 but it's not recommended
     std::cout<<"after calling a c-style function a is "<<a<<std::endl;
    return 0;
 }

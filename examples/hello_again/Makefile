@@ -1,4 +1,5 @@
 #EXERCISE 0: fix mistakes so that this file actually work! hint: there is a confusion of where we store object files
+# #scr/hello.cpp corrected at line 11: hello.o files is src folder
 
 # This is a comment line
 CC=g++
@@ -7,12 +8,12 @@ INCDIR=include
 # CFLAGS will be the options passed to the compiler.
 CFLAGS= -c -I$(INCDIR)
 
-hello.x: main.o hello.o
-	$(CC) main.o hello.o -o hello.x
+hello.x: main.o src/hello.o
+	$(CC) main.o src/hello.o -o hello.x 
 main.o: main.cpp
-	$(CC) $(CFLAGS) main.c
-src/hello.o: src/hello.c
-	$(CC) $(CFLAGS) hello.c
+	$(CC) $(CFLAGS) main.cpp -std=c++14
+src/hello.o: src/hello.cpp
+	$(CC) $(CFLAGS) hello.cpp -std=c++14
 clean:
 	rm -rf *.o *.x 
 	

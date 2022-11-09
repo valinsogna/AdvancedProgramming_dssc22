@@ -4,14 +4,14 @@ int a{3}; //global variable, avoid if possible
 
 
 int main(){
-    std::cout<<"global variable a is: "<<a<<std::endl; 
+    std::cout<<"global variable a is: "<<a<<std::endl; //3
     int a{9}; //be careful and don't do that!
-    std::cout<<"local variable a is: "<<a<<std::endl; 
+    std::cout<<"local variable a is: "<<a<<std::endl; //9
     std::cout<<"can't even access the global one anymore"<<std::endl;
     
     
     {int b{0};
-        std::cout<<"variable b is: "<<b<<std::endl; 
+        std::cout<<"variable b is: "<<b<<std::endl; //0
     }
     //std::cout<<"variable b is: "<<b<<std::endl; //this is an error, b doesn't exist
     

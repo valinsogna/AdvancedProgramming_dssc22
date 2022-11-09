@@ -6,7 +6,7 @@ int main(){
     if(x==3){
         std::cout<<"yes, x is 3"<<std::endl;
     }else if(x==4)
-            std::cout<<"yes, it's 4"<<std::endl; //braces can be omitted, BUT DON'T DO THAT!!!
+            std::cout<<"yes, it's 4"<<std::endl; //braces can be omitted, it works BUT DON'T DO THAT!!!
             else{
                 std::cout <<"it's something else"<<std::endl;
             }//else

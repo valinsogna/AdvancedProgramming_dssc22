@@ -6,7 +6,7 @@ int main(){
 
     //this will create "test.txt" if it doesn't exist or overwrite if it does
     std::ofstream filevar("test.txt");
-    //filvar.open("name.txt")
+    //filvar.open("name.txt") # no need to open if you use the constructor
     filevar << "1 2 3"<<std::endl;
     filevar.close();
     

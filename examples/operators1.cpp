@@ -17,7 +17,7 @@ public:
         result.y = y + b.y;
         return result;
     }//operator+
-  /*  //this is a wrong way, as it becomes non-commutative
+  /*  //this is a wrong way, as it becomes non-commutative!!!
     CCoords operator+(const int& b) {
         CCoords result;
         result.x = x + b;
@@ -68,6 +68,8 @@ int main(){
     std::cout<<"not equal"<<std::endl;
   }
   auto var4= var+2;
+  var4.print();
   var4=2+var;
+  var4.print();
   return 0;  
 }
