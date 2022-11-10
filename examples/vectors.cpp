@@ -64,15 +64,15 @@ int main(){
     std::array<int,5> arr;//need to specify the number of elements
     std::vector<int>  vec;
     vec.resize(5);
-    print_whatever(arr);
-    print_whatever(vec);
+    print_whatever(arr);//0 0 -514910456 32766 335691813
+    print_whatever(vec);// 0 0 0 0 0
        
     vec.push_back(8);//avoid if you can in hpc!
     vec.reserve(100000);//now you can do push_backs, but still better not
     
-    print_whatever(vec);
-    std::cout<<vec.size()<<std::endl;
-    std::cout<<vec.capacity()<<std::endl;
+    print_whatever(vec); //0 0 0 0 0 8
+    std::cout<<vec.size()<<std::endl; //6
+    std::cout<<vec.capacity()<<std::endl; //100000
     
     printC(vec.data(),vec.size());
     printC(&arr[0],arr.size());

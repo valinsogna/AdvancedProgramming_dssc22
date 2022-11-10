@@ -6,6 +6,7 @@ void print(const T& x){
     std::cout<<x<<std::endl;
 }
 
+//As return type
 template <typename T>
 T sum(const T& a, const T& b){
     return a+b;
@@ -25,12 +26,12 @@ int main(){
     print(a);
     print(b);
     //we can force a choice if we want
-    print<int>(b);
+    print<int>(b); //this will print 9
     //here if you don't specify "double" compiler will complain cause it can't decide
-    auto c=sum<double>(a,b);
-    print(c);
+    auto c=sum<double>(a,b); 
+    print(c);//this will print 17.7
     weird_function(a,b);
-    print(a);
-    print(b);
+    print(a);   //this will print 9
+    print(b); //this will print 8.7
     return 0;
 }
