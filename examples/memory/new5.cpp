@@ -12,7 +12,7 @@ public:
     CMyClass& operator=(CMyClass&& p);
     CMyClass operator+(const CMyClass& p);
     CMyClass(const CMyClass& p);
-    CMyClass(CMyClass&& p);
+    CMyClass(CMyClass&& p);//move ctor!
     
 };
 
@@ -112,7 +112,7 @@ if (this != &p) {
 }//copy constructor
 
 template<typename T> 
-CMyClass<T>::CMyClass ( CMyClass<T> && p ) {
+CMyClass<T>::CMyClass ( CMyClass<T> && p ) { //modify p!!!!
      std::cout<<"move constructor called"<<std::endl;
 //first check for self-assignment
 if (this != &p) { 
@@ -157,14 +157,14 @@ int main(){
     auto obj3=obj2+obj;
     obj3.print();
     //will crash without a copy constructor
- //   a_function(obj);
+    a_function(obj); //copy constructor called + destructor called
     //another use of copy constructor
-  //  CMyClass<int> obj4(obj3);
+    CMyClass<int> obj4(obj3); //copy constructor called
     
     //obj3 still exists, but assume it can't be used anymore 
-    auto obj5=std::move(obj3); 
+    auto obj5=std::move(obj3); //move constructor called
     
-    obj5=std::move(obj2);
+    obj5=std::move(obj2); //move assignment operator called
     
     return 0;
 }

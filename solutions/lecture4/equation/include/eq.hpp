@@ -45,7 +45,8 @@ void CQuadratic_Equation<T>::solve() {
 template <typename T>
 void CQuadratic_Equation<T>::print_solution() {
     //not the best printing format
-    std::cout<<"solutions are: "<<sol1.r << " + i*" <<sol1.im<<std::endl;
+    std::cout<<"Solutions are:\n";
+    std::cout<<sol1.r << " + i*" <<sol1.im<<std::endl;
     std::cout<<sol2.r << " + i*" <<sol2.im<<std::endl;
 }
  

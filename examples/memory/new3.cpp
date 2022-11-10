@@ -1,6 +1,13 @@
  
 #include <iostream>
 
+/*
+Some operators return by value, some by reference. 
+In general, an operator whose result is a new value (such as +, -, etc) must return the new value by value, 
+and an operator whose result is an existing value, but modified (such as <<, >>, +=, -=, etc), 
+should return a reference to the modified value.
+*/
+
 template <typename T>
 class CMyClass{
 public:
@@ -9,7 +16,7 @@ public:
     CMyClass(const int& N);
     ~CMyClass();
     void print();
-  //  CMyClass& operator=(const CMyClass& p);
+    CMyClass& operator=(const CMyClass& p);
     CMyClass operator+(const CMyClass& p);
     
 };
@@ -41,7 +48,7 @@ void CMyClass<T>::print() {
     std::cout<<std::endl;   
 }
 
-/*
+
 template <typename T>
 CMyClass<T>& CMyClass<T>::operator=(const CMyClass<T>& p){
     std::cout<<"assignment operator called"<<std::endl;
@@ -66,7 +73,7 @@ if (this != &p) {
 }//of cheking for self-assignement
 return *this;
 };
-*/
+
 
 template<typename T> 
 CMyClass<T> CMyClass<T>::operator+ ( const CMyClass<T>& p ) {
@@ -86,7 +93,7 @@ int main(){
    
     CMyClass<int> obj(10);
     CMyClass<int> obj2(10);
-   //THIS ACTUALLY NEVER CALLS ASSIGNMENT OPERATOR! 
+   //THIS ACTUALLY NEVER CALLS ASSIGNMENT OPERATOR! -> copy elision: only plus operator called!
     auto obj3=obj2+obj;
     obj3.print();
     return 0;

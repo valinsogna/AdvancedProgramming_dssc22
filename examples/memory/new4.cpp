@@ -10,7 +10,7 @@ public:
     void print();
     CMyClass& operator=(const CMyClass& p);
     CMyClass operator+(const CMyClass& p);
-    CMyClass(const CMyClass& p);
+    CMyClass(const CMyClass& p); //copy ctor
     
 };
 
@@ -67,9 +67,9 @@ if (this != &p) {
 return *this;
 };
 
-
+// No need to free memory of existing dynamic variables
 template<typename T> 
-CMyClass<T>::CMyClass ( const CMyClass<T>& p ) {
+CMyClass<T>::CMyClass ( const CMyClass<T>& p ) { //don't modify p
     std::cout<<"copy constructor called"<<std::endl;
 //first check for self-assignment
 if (this != &p) { 
@@ -120,7 +120,7 @@ int main(){
     auto obj3=obj2+obj;
     obj3.print();
     //will crash without a copy constructor
-    a_function(obj);
+    a_function(obj); //copy constructor called: pass by value + destructor called
     //another use of copy constructor
     CMyClass<int> obj4(obj3);
     

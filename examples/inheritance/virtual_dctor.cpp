@@ -1,13 +1,12 @@
 #include <iostream>
-//TL;DR: if destructor is not virtual, you risk leaking memory
+//TL;DR: if destructor is not virtual, you risk leaking memory!!
 
 template <typename T>
 class CBase1{
 public:    
     T field1; 
     CBase1(const T& f0):field1(f0){};
-   // virtual 
-    ~CBase1(){std::cout<<"base dctor called"<<std::endl;};
+    virtual ~CBase1(){std::cout<<"base dctor called"<<std::endl;};
 };
 
 template <typename T>
@@ -32,7 +31,7 @@ int main(){
  //CBase1<int>* ptr=new CDerived1<int>(7);
  //instead: 
  CDerived1<int>* c1 = new CDerived1<int>(12);
- CBase1<int>* ptr=c1;
+ CBase1<int>* ptr=c1; //ONLY base dctor called, no derived dctor called, memory leak!!: if I add virtual both are called
  delete ptr;
  
  return 0;   
