@@ -14,7 +14,7 @@ int main () {
  
   int x{2147483647};
   
-  std::cout<<(x+10)<<std::endl;
+  std::cout<<(x+10)<<std::endl; // int overflow: 2147483647 + 10 = -2147483637 since int is 32 bits and the max value is 2147483647
   
   return 0;
   

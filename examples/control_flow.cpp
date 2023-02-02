@@ -3,7 +3,7 @@
 int main(){
     int x{5}, y{7};
     //just to see how if looks and works
-    if(x==3){
+    if(x==3){ // usign x=3 will compile but warning will be issued
         std::cout<<"yes, x is 3"<<std::endl;
     }else if(x==4)
             std::cout<<"yes, it's 4"<<std::endl; //braces can be omitted, it works BUT DON'T DO THAT!!!
