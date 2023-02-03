@@ -6,7 +6,7 @@ CC=g++
 # This is a folder to look for header files
 INCDIR=include
 # CFLAGS will be the options passed to the compiler.
-CFLAGS= -c -I$(INCDIR)
+CFLAGS= -c -I$(INCDIR) -Wall -03
 
 hello.x: main.o src/hello.o
 	$(CC) main.o src/hello.o -o hello.x 
@@ -15,5 +15,5 @@ main.o: main.cpp
 src/hello.o: src/hello.cpp
 	$(CC) $(CFLAGS) hello.cpp -std=c++14
 clean:
-	rm -rf *.o *.x 
+	rm -rf src/*.o *.x 
 	
