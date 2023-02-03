@@ -6,7 +6,7 @@ public:
     T* data;
     MyClass(){};
     MyClass(const int& N);
-    ~MyClass();
+    ~MyClass(); // must be defined since we need to free the memory allocated by new, after the object is destroyed
 };
 
 template<typename T> 
@@ -21,7 +21,7 @@ template<typename T>
 template<typename T> 
     MyClass<T>::~MyClass() {
     delete[] data;
-    data=nullptr;
+    data=nullptr; // dangling pointer: a pointer that points to a memory location that has been freed
     std::cout<<"destructor called"<<std::endl;
 }
 

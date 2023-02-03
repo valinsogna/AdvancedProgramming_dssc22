@@ -77,13 +77,13 @@ CMyClass<T>& CMyClass<T>::operator=(CMyClass<T>&& p){
 if (this != &p) { 
 //copy non-dynamic variables
 	size=p.size;
-    p.size=0;
+    p.size=0; //this is important!
 //free memory of existing dynamic variables
 	if (data != nullptr){
 		delete[] data;
     }	
     data=p.data;
-    p.data=nullptr;
+    p.data=nullptr; //this is important!
 
 	
 }//of checking for self-assignment

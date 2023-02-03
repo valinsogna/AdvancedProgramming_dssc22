@@ -19,7 +19,7 @@ public:
 template<typename T> 
     CMyClass<T>::CMyClass(const int& N) {
     //instead of new    
-    data=std::make_unique<int[]>(N);
+    data=std::make_unique<int[]>(N); // no need to delete
     size=N;
     for(int i=0;i<N;i++){
         data[i]=i;
@@ -45,7 +45,7 @@ CMyClass<T>& CMyClass<T>::operator=(const CMyClass<T>& p){
 if (this != &p) { 
 //copy non-dynamic variables
 	size=p.size;
-    data.reset(new T[size]);
+    data.reset(new T[size]); // new!!!
     for(int i=0;i<size;i++){
         data[i]=p.data[i];
     }
@@ -94,7 +94,7 @@ if (this != &p) {
 	size=p.size;
     p.size=0;
 //create and copy dynamic variables
-    data=std::move(p.data);
+    data=std::move(p.data); // no need to delete
 }//of checking for self-assignment
     
 }
