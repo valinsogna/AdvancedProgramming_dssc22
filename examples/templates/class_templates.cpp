@@ -26,8 +26,8 @@ template<typename M>
 
 
 int main(){
-    CMyClass<int> var(7,8);
-    var.print_extra(9.1);
+    CMyClass<int> var(7,8); // T is deduced to be int: MUST SPECIFY TYPE (!= template function)
+    var.print_extra(9.1); // M is deduced to be double (argument type)
     
     return 0;
 }
