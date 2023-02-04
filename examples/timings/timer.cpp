@@ -33,7 +33,7 @@ public:
 };
 
 class CScoped_Timer{
-  CTimer& timer;
+  CTimer& timer; //avoid this!!!!!!!!! it's a reference, so it's not copyable
   std::chrono::time_point<CHRONO> t_start;
   std::string section;
   void update_table(){
@@ -51,7 +51,7 @@ public:
 
 //we need a global variable
 //if you are using headers (as you should), you can put this declaration into some "global.hpp" file, or declare it after the timer class
-CTimer the_timer;
+CTimer the_timer; //avoid this!!!
 
 int main(){
     double a{0};

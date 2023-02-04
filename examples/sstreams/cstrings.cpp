@@ -4,7 +4,7 @@
 int main () {
 
     //things in " " are already null-terminated
-   char str1[10] = "Hello";
+   char str1[10] = "Hello"; // the quptes add /0 to the end in automatic
    char str2[10] = "World";
    char str3[10];
    int  len ;
