@@ -10,15 +10,15 @@ public:
 };
 
 template <typename T>
-class CDerived1:public CBase1<T>{
+class CDerived1:public CBase1<T>{ // ATT: Derived class deals with memory
 public:
     T field2; 
-    T* arr;
+    T* arr; // ATT: Derived class deals with memory
     CDerived1(const T& f0):CBase1<T>(f0){
         field2=f0;
         arr=new int[10];
     };
-   ~CDerived1(){free(arr); std::cout<<"derived dctor called"<<std::endl;}
+   ~CDerived1(){delete[] arr; std::cout<<"derived dctor called"<<std::endl;}
 };
 
 

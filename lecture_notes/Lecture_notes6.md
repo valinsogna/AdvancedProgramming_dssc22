@@ -175,7 +175,7 @@ class Circle: public Shape{
   }
 
 int main(){
-  Shape s;
+  Shape s; // abstract class, cannot be instantiated
   Circle c; 
 }
 ```
@@ -191,14 +191,14 @@ class Shape{
 
 class Polygon: public Shape{
   double* v;
-  void print() override {std::cout<<"hi"<<std::endl};
-  Polygon(const int&N){v=new double[N];};
-  ~Polygon(){delete[] v;};
-  }
+  void print() override {std::cout<<"hi"<<std::endl}; // can be private
+  Polygon(const int&N){v=new double[N];}; // must be public
+  ~Polygon(){delete[] v;}; // must be public
+}
 
 int main(){
-  Shape* s = new Circle(7);
-  s.print();
+  Shape* s = new Circle(7); // Polygon (not Circle)
+  s.print(); // s is a ptr: calls the print of DERIVED class (use ->)
 }
 ```
 
