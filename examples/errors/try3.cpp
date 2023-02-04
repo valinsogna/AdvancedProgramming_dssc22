@@ -12,7 +12,7 @@ struct Square_root_invalid : public std::exception {
 double square_root(const double d) {
   // test the pre-conditions
 
-  AP_ERROR(d >= 0 && d <= 50, Square_root_invalid)
+  AP_ERROR(d >= 0 && d <= 50, Square_root_invalid) //MACRO
       << "In our library the argument must be positive and less or equal than "
          "50.\n\nYou passed "
       << d << ".\n";
@@ -46,4 +46,20 @@ int main() {
     return 1;
   }
 }
+/*
+please insert a number
+88
 
+
+------------------------------------------------------------------
+A runtime exception has been thrown
+
+       file: try3.cpp
+       line: 15
+   function: double square_root(const double)
+------------------------------------------------------------------
+
+In our library the argument must be positive and less or equal than 50.
+
+You passed 88.
+*/

@@ -1,4 +1,4 @@
-#include <cassert>
+#include <cassert> 
 #include <cmath>
 #include <iostream>
 
@@ -9,6 +9,7 @@ double square_root(const double d) {
    //assert(d >= 0 && d <= 50);  // provided by C, no execeptions
     
 //this can be turned off with -DNDEBUG
+// -D stands for define
   AP_ASSERT(d >= 0 && d <= 50) << "d should be in the range [0,50]";
 
   // AP_ASSERT_IN_RANGE(d,0,50);

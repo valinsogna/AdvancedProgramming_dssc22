@@ -1,10 +1,10 @@
 #include <iostream>
 #include <cmath>
-#include <memory>
+#include <memory> //for std::unique_ptr
 
 
-class CMyException: public std::exception{
-  const char* what() const noexcept override{
+class CMyException: public std::exception{ //inherit from std::exception
+  const char* what() const noexcept override{ // it's a virtual func in exception
     return "My exception happened";
   }
 };
@@ -19,10 +19,11 @@ int main(){
   }
     
   try{
-    throw CMyException();    
+    throw CMyException();  // ctor of CMyException is called  
         
-   }catch (std::exception& e){
-    std::cout << e.what() << std::endl;
+   }catch (std::exception& e){ 
+    std::cout << e.what() << std::endl; // call what() of CMyException (DErived class)
+  // output: My exception happened
   }
   
   try
@@ -32,6 +33,7 @@ int main(){
   catch (std::exception& e)
   {
     std::cout << "Standard exception: " << e.what() << std::endl;
+    // output: Standard exception: bad_alloc
   }
 
   return 0;
