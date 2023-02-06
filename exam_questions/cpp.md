@@ -92,7 +92,7 @@
         std::cout<< i <<" ";
     }
     ```  
-9. How do you define a static array of type int and size 7? R value or const
+9. How do you define a static array of type int and size 7? R value or const, otherwise compiles but segmentation fault (run time error) (out of memory)
     ```
     int N{5};
     const int NN{5};
@@ -165,14 +165,94 @@
         ```
 
 11. What is a reference?
+
+    A reference variable is an alias, that is, another name for an already existing variable. Once a reference is initialized with a variable, either the variable name or the reference name may be used to refer to the variable.
+    It's a pointer that is soon dereferenced.
+
+    Differences between references and pointers:
+
+    - You cannot have NULL references. 
+    - You must always be able to assume that a reference is connected to a legitimate piece of storage.
+    - Once a reference is initialized to an object, it cannot be changed to refer to another object. Pointers can be pointed to another object at any time. A reference cannot be re-bound or unbound, and it practically becomes just an alternative name for the object it is bound to
+
+    A reference must be initialized when it is created. Pointers can be initialized at any time
+
 12. What is a difference between passing variables to functions by reference and by value?
+    copies
+
 13. Why do we want to pass variables to functions by reference rather than by pointer?
+    This is discouraged in C++ for "single variables" and can cause ambiguity and hard-to-catch bugs when you forget if it's an array or not, so avoid this unless you are using C-libraries. Arrays are already pointers and will always be passed "by pointer".
+
+    ```
+    void print_array(int* arr, const int N){
+        //accessing "normally"
+        for(int i=0;i<N;i++){
+            std::cout<<arr[i]<<" ";
+        }
+        std::cout<<std::endl;
+        //accessing with "pointer arythmetics"
+        for(int i=0;i<N;i++){
+            std::cout<<*(arr+i)<<" ";
+        }
+        std::cout<<std::endl;
+    }
+
+
+    int main(){
+       const int N{5};
+       int arr[N];//array is a pointer!!
+       print_array(arr,N); 
+    }
+
+    ```
 14. If the function accepts pointers (signature `int function(int* a)`), how do you pass a variable defined as `int x` to it?
+
+    `int res = function(&x)` -> operatore di indirizzo
+
 15. Why do we want to use `const` modifier whenever possible?
+
+    `const` keyword specifies that a variable's value is constant and tells the compiler to prevent the programmer from modifying it.
+    The const variable cannot be left un-initialized at the time of the assignment.
+    It cannot be assigned value anywhere in the program.
+    Explicit value needed to be provided to the constant variable at the time of declaration of the constant variable.
+
+    - `const int *ptr_1 = &value;      // ptr_1 points to a “const int” value, so this is a pointer to a const value.`
+
+    - `int *const ptr_2 = &value;        // ptr_2 points to an “int”, so this is a const pointer to a non-const value.`
+
+    - `const int *const ptr_3 = &value;   // ptr_3 points to a “const int” value, so this is a const pointer to a const value.`
+
+    Variables are passed to functions as const if we want to prevent them to be changed -> ex, print func 
+    Also memeber func can be const if we promise not to modify any memeber variables: the object called by these functions cannot be modified.
+
 16. If you have a pointer named `p`, how do you access a value it points to? What is the name of that process?
-17. What value is stored in the pointer variable itself?
+    A pointer is a variable that stores the memory address of whatever it points to. It needs to have a type to know how to read that memory.
+
+    ```
+    int a{0};
+    int* pointer{nullptr}; //doesn't have to be initialized, but it's better to put `nullptr` when you create it.
+    pointer=&a; //here & means *address of the variable*
+    ```
+    You can access it's element in 2 ways: via `operator[]` if it's an array or  **dereference** a pointer by placing a `*` before the name.
+    ```
+    std::cout<< *pointer << std::endl;
+    ```
+
+17. What value is stored in the pointer variable itself? address `0x7ffee67f66f8`
+
 18. What can you say about a function that has signature `void function()`?
+
+    A function is a block of code that performs some operation. It can take input parameters and it can return a value as output. If it doesn't return any value, it's return type is `void`. The simplest function you can write is:
+
+    ```
+    void function(){};
+    ```
+
 19. What is an `auto` keyword?
+
+    If you are not sure which type the function returns or the return type is way too long, you use **auto** keyword.
+    Auto ias deduced by compiler at compile time (statically typed language)
+
 20. What is function overloading?
 21. What is a recursive function?
 22. What is the role of a constructor in a class?
