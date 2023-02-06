@@ -1,4 +1,4 @@
-## **Name at least 5 variable types in c++**
+### **Name at least 5 variable types in c++**
 
 In c++ there are built-in types know by the compiler, standard types for Standard C++ library (namespace std), derived Datatypes (include array, function, pointer, and reference) and custom types or user-defined types (enum, class/struct,typedef).
 Oss. long, short,signed,unsigned are modifiers.
@@ -22,7 +22,7 @@ Oss. Var size:
     double    8B
     ptr       8B (on 64-bits system)
 
-2. **What is "int overflow"?**
+### **What is "int overflow"?**
 
 Overflow is a phenomenon where operations on 2 numbers exceeds the maximum (or goes below the minimum) value the data type can have in memory. Usually it is thought that integral  types are very large and people don't take into account the fact that sum of two numbers can be larger than the range. But in things like scientific and mathematical computation, this can happen. For example, an unhandled arithmetic overflow in the engine steering software was the primary cause of the crash of the maiden flight of the Ariane 5 rocket. 
 
@@ -39,7 +39,7 @@ Float has 7 decimal digits of precision. double is a 64-bit IEEE 754 double prec
 Python instead has no limit on the size of the integer (but don't get happy about that, it's slow if you need a lot ofthose numbers).
 But floats do have limits: for double precision (which is used by default) you get and exponent (of 2) between -1022 and+1023 (-307 to 308 base 10) and ~16 decimal places.
 
-3. **Why `using namespace std` might not be a good idea?**
+### **Why `using namespace std` might not be a good idea?**
 
 Name clashing btw imported libraries/namespaces.
 Alternative to this statement is to specify the namespace to which the identifier belongs using the scope operator(::) eachtime we declare a type. 
