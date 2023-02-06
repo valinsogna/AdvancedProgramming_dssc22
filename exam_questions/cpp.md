@@ -1,70 +1,86 @@
-1. name at least 5 variable types in c++
+1. Name at least 5 variable types in c++
 
-In c++ there are built-in types know by the compiler, standard types for Standard C++ library (namespace std), derived Data types (include array, function, pointer, and reference) and custom types or user-defined types (enum, class/struct, typedef).
+    In c++ there are built-in types know by the compiler, standard types for Standard C++ library (namespace std), derived Data types (include array, function, pointer, and reference) and custom types or user-defined types (enum, class/struct, typedef).
 
-Oss. long, short,signed,unsigned are modifiers.
+    Oss. long, short,signed,unsigned are modifiers.
 
-bool var{true};
-double x{3.5};
-float  xx{3.5f};
-int a{-1}; // on 32-bits system [-2^31, 2^31-1]
-short int b{2};
-long int c{3};
-long long int d{4};
-char s{'a'};
-unsigned int g{6};
-std::string name; //include the header <string>
-void
-nullptr
+    ```
+    bool var{true};
+    double x{3.5};
+    float  xx{3.5f};
+    int a{-1}; // on 32-bits system [-2^31, 2^31-1]
+    short int b{2};
+    long int c{3};
+    long long int d{4};
+    char s{'a'};
+    unsigned int g{6};
+    std::string name; //include the header <string>
+    void
+    nullptr
+    ```
 
-Oss.char/bool 1B
-    int/float 4B
-    double    8B
-    ptr       8B (on 64-bits system)
+    Oss. Var size:
+        char/bool 1B
+        int/float 4B
+        double    8B
+        ptr       8B (on 64-bits system)
 
-2. what is "int overflow"?
+2. What is "int overflow"?
 
-Overflow is a phenomenon where operations on 2 numbers exceeds the maximum (or goes below the minimum) value the data type can have in memory. Usually it is thought that integral types are very large and people don't take into account the fact that sum of two numbers can be larger than the range. But in things like scientific and mathematical computation, this can happen. For example, an unhandled arithmetic overflow in the engine steering software was the primary cause of the crash of the maiden flight of the Ariane 5 rocket. 
-For c++, depending on the compiler and type system, usually int can range on 32-bits system [-2^31, 2^31-1]. 
-If x = std::pow(-2,31) // 2^31 = 2147483648, include <cmath>
-=> x-1 overflow.
-Include <limits> one can use function std::numeric_limits<int>::min()/max() to investigate the limits on his/her machine.
-Double has 2x more precision than float. float is a 32-bit IEEE 754 single precision Floating Point Number – 1 bit for the sign, 8 bits for the exponent, and 23* for the value. Float has 7 decimal digits of precision. double is a 64-bit IEEE 754 double precision Floating Point Number – 1 bit for the sign, 11 bits for the exponent, and 52* bits for the value. double has 15 decimal digits of precision.
+    Overflow is a phenomenon where operations on 2 numbers exceeds the maximum (or goes below the minimum) value the data type can have in memory. Usually it is thought that integral  types are very large and people don't take into account the fact that sum of two numbers can be larger than the range. But in things like scientific and mathematical computation, this can happen. For example, an unhandled arithmetic overflow in the engine steering software was the primary cause of the crash of the maiden flight of the Ariane 5 rocket. 
 
-Python instead has no limit on the size of the integer (but don't get happy about that, it's slow if you need a lot of those numbers).
-But floats do have limits: for double precision (which is used by default) you get and exponent (of 2) between -1022 and +1023 (-307 to 308 base 10) and ~16 decimal places.
+    For c++, depending on the compiler and type system, usually int can range on 32-bits system $$[-2^31, 2^31-1]$$. 
+    ```
+    x = std::pow(-2,31) // 2^31 = 2147483648, include <cmath>
+    x= x-1 //overflow.
+    ```
+    Include `<limits>` one can use function `std::numeric_limits<int>::min()/max()` to investigate the limits on his/her machine.
+    Double has 2x more precision than float.
+    Float is a 32-bit IEEE 754 single precision Floating Point Number – 1 bit for the sign, 8 bits for the exponent, and 23* for the value.    
+    Float has 7 decimal digits of precision. double is a 64-bit IEEE 754 double precision Floating Point Number – 1 bit for the sign, 11 bits for the exponent, and 52* bits for the   value. double has 15 decimal digits of precision.
 
-3. why `using namespace std` might not be a good idea?
+    Python instead has no limit on the size of the integer (but don't get happy about that, it's slow if you need a lot of those numbers).
+    But floats do have limits: for double precision (which is used by default) you get and exponent (of 2) between -1022 and +1023 (-307 to 308 base 10) and ~16 decimal places.
 
-Name clashing btw imported libraries/namespaces.
-Alternative to this statement is to specify the namespace to which the identifier belongs using the scope operator(::) each time we declare a type. 
-Although the statement saves us from typing std:: whenever we wish to access a class or type defined in the std namespace, it imports the entirety of the std namespace into the current namespace of the program. 
-- consider using typedefs: typedef std::cout cout_std;
-- import a single identifier. To import only std::cout we could use: using std::cout;
+3. Why `using namespace std` might not be a good idea?
 
-4. which header do you have to include for the access to std::cout?
-<iostream> Tutte le funzioni e le classi sono dichiarate all'interno del namespace std.
-functions to handle the input and output stream in c++. This iostream header file contains various functions, including cin, cout, endl.
+    Name clashing btw imported libraries/namespaces.
+    Alternative to this statement is to specify the namespace to which the identifier belongs using the scope operator(::) each time we declare a type. 
+    Although the statement saves us from typing std:: whenever we wish to access a class or type defined in the std namespace, it imports the entirety of the std namespace into the    current namespace of the program. 
+    - consider using typedefs: typedef std::cout cout_std;
+    - import a single identifier. To import only std::cout we could use: using std::cout;
+
+4. Which header do you have to include for the access to `std::cout`?
+
+    `<iostream>` Tutte le funzioni e le classi sono dichiarate all'interno del namespace std.
+    functions to handle the input and output stream in c++. This iostream header file contains various functions, including `std::cin`, `std::cout`, `std::endl`.
 
 5. what would be the simplest "legal" program in c++?
-int main(){} -> must be named main (named global func) as it's the entry point for the wrapper of the linker. Compiler complains.
-linker error is a complain about an "undefined reference to main": it means that the linker tried to create an executable and couldn't figure out where the main() function was located. This can happen if you forget to include the main function at all
-Signature:
-int main();
-int main(int argc, char *argv[]);
+    ```
+    int main(){} // named global func as it's the entry point for the wrapper of the linker.
+    ```
+    
+    Linker error is a complain about an "undefined reference to main": it means that the linker tried to create an executable and couldn't figure out where the main() function was located. This can happen if you forget to include the main function at all
+    
+    Signature:
+    ```
+    int main();
+    int main(int argc, char *argv[]);
+    ```
 
-return 0 can be omitted. If your return 2, it compiles but in Linux/unix system if you exit with a status other than 0 then, then it print an error message to stderr.
-Via echo $? you can access the return type.
-Oss. exit(1) vs return 1 -> return returns from the current function (like break) exit() terminates the whole program, wherever you call it from.
+    Return 0 can be omitted. If your return 2, it compiles but in Linux/unix system if you exit with a status other than 0 then, then it print an error message to stderr.
+    Via `echo $?` you can access the return type.
+    Oss. `exit(1)` vs `return 1` -> return returns from the current function (like break) exit() terminates the whole program, wherever you call it from.
 
 6. what is the difference in c++ between `struct` and `class`?
 
-If you don't specify public: or private:, members of a struct are public by default; members of a class are private by default
-struct are no C struct.
+    If you don't specify public: or private:, members of a struct are public by default; members of a class are private by default
+    struct are no C struct.
 
-7. what does `break` statement do in a loop in c++? you can break out of the loop with `break` 
-8. what does `continue` statement do in a loop? skip to the next iteration with `continue`
-```
+7. What does `break` statement do in a loop in c++? you can break out of the loop with `break` 
+8. What does `continue` statement do in a loop? skip to the next iteration with `continue`
+
+    ```
     for (int i=0;i<7;i++){
         if(i>=3){break;}
         std::cout<< i <<" ";
@@ -75,54 +91,57 @@ struct are no C struct.
         if(i==3){continue;}
         std::cout<< i <<" ";
     }
-```  
-9. how do you define a static array of type int and size 7? R value or const
+    ```  
+9. How do you define a static array of type int and size 7? R value or const
+    ```
     int N{5};
     const int NN{5};
     int arr[5];
     int arr2[N];//THIS COMPILES, BUT IS VERY BAD, DON'T DO IT
     int arr3[NN];
-10. what can you use to read interactive user input?
+    ```
+10. What can you use to read interactive user input?
 
-From prompt:
-```
-#include <iostream>
- ......
+    From prompt:
+    ```
+    #include <iostream>
+     ......
 
-int x{0};
-std::cin >> x;
+    int x{0};
+    std::cin >> x;
 
-```
+    ```
 
-The `>>` is called "extraction operator".
-You can read more than one number if the user inputs them with spaces:
+    The `>>` is called "extraction operator".
+    You can read more than one number if the user inputs them with spaces:
 
-```
-int x{0},y{0};
-std::cin >> x >>y;
-```
-To check types:
+    ```
+    int x{0},y{0};
+    std::cin >> x >>y;
+    ```
+    To check types:
 
-```
-#include <sstream>
-#include <iostream>
+    ```
+    #include <sstream>
+    #include <iostream>
 
-int main( int argc, char *argv[] ){
-  std::istringstream ss(argv[1]);
-  int x{0};
-  //we try to read a number from the first passed argument
-  if (!(ss >> x)) {
-    std::cerr << "Invalid number: " << argv[1] << std::endl;
-  } else if (!ss.eof()) {
-    std::cerr << "There are trailing characters after the number: " << argv[1] << std::endl;
-    std::cout<<"number was "<<x<<std::endl;
-  }  
-  
-  return 0;
-}
-```
+    int main( int argc, char *argv[] ){
+      std::istringstream ss(argv[1]);
+      int x{0};
+      //we try to read a number from the first passed argument
+      if (!(ss >> x)) {
+        std::cerr << "Invalid number: " << argv[1] << std::endl;
+      } else if (!ss.eof()) {
+        std::cerr << "There are trailing characters after the number: " << argv[1] << std::endl;
+        std::cout<<"number was "<<x<<std::endl;
+      }  
+    
+      return 0;
+    }
+    ```
 
-(the result will essentally be identical to calling `std::cin>>` twice)
+    (the result will essentally be identical to calling `std::cin>>` twice)
+    
 11. What is a reference?
 12. What is a difference between passing variables to functions by reference and by value?
 13. Why do we want to pass variables to functions by reference rather than by pointer?
