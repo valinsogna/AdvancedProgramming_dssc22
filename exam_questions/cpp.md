@@ -29,7 +29,7 @@
 
     Overflow is a phenomenon where operations on 2 numbers exceeds the maximum (or goes below the minimum) value the data type can have in memory. Usually it is thought that integral  types are very large and people don't take into account the fact that sum of two numbers can be larger than the range. But in things like scientific and mathematical computation, this can happen. For example, an unhandled arithmetic overflow in the engine steering software was the primary cause of the crash of the maiden flight of the Ariane 5 rocket. 
 
-    For c++, depending on the compiler and type system, usually int can range on 32-bits system $$[-2^31, 2^31-1]$$. 
+    For c++, depending on the compiler and type system, usually int can range on 32-bits system $[-2^31, 2^31-1]$. 
     ```
     x = std::pow(-2,31) // 2^31 = 2147483648, include <cmath>
     x= x-1 //overflow.
@@ -141,7 +141,7 @@
     ```
 
     (the result will essentally be identical to calling `std::cin>>` twice)
-    
+
 11. What is a reference?
 12. What is a difference between passing variables to functions by reference and by value?
 13. Why do we want to pass variables to functions by reference rather than by pointer?
