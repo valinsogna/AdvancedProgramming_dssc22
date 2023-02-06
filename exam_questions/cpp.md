@@ -1,29 +1,25 @@
 1. **Name at least 5 variable types in c++**
-
-    In c++ there are built-in types know by the compiler, standard types for Standard C++ library (namespace std), derived Data types (include array, function, pointer, and reference) and custom types or user-defined types (enum, class/struct, typedef).
-
-    Oss. long, short,signed,unsigned are modifiers.
-
-    ```
-    bool var{true};
-    double x{3.5};
-    float  xx{3.5f};
-    int a{-1}; // on 32-bits system [-2^31, 2^31-1]
-    short int b{2};
-    long int c{3};
-    long long int d{4};
-    char s{'a'};
-    unsigned int g{6};
-    std::string name; //include the header <string>
-    void
-    nullptr
-    ```
-
-    Oss. Var size:
-        char/bool 1B
-        int/float 4B
-        double    8B
-        ptr       8B (on 64-bits system)
+In c++ there are built-in types know by the compiler, standard types for Standard C++ library (namespace std), derived Datatypes (include array, function, pointer, and reference) and custom types or user-defined types (enum, class/struct,typedef).
+Oss. long, short,signed,unsigned are modifiers.
+```c++
+bool var{true};
+double x{3.5};
+float  xx{3.5f};
+int a{-1}; // on 32-bits system [-2^31, 2^31-1]
+short int b{2};
+long int c{3};
+long long int d{4};
+char s{'a'};
+unsigned int g{6};
+std::string name; //include the header <string>
+void
+nullptr
+```
+Oss. Var size:
+    char/bool 1B
+    int/float 4B
+    double    8B
+    ptr       8B (on 64-bits system)
 
 2. **What is "int overflow"?**
 
