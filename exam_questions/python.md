@@ -40,7 +40,7 @@
 
 21. What are decorators? Write an example (minor syntax errors are ok here)
 
-```
+```python
 # importing libraries
 import time
 import math
@@ -63,7 +63,7 @@ def calculate_time(func):
         end = time.time()
         print("Total time taken in : ", func.__name__, end - begin)
  
-    return inner1
+return inner1
 ```
  
  
