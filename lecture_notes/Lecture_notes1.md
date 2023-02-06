@@ -95,7 +95,7 @@ short int b{2};
 long int c{3};
 long long int d{4};
 char s{'a'};
-std::string name; //include the header <strings>
+std::string name; //include the header <string>
 ```
 
 
