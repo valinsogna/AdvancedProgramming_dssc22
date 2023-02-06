@@ -1,4 +1,4 @@
-1. Name at least 5 variable types in c++
+1. **Name at least 5 variable types in c++**
 
     In c++ there are built-in types know by the compiler, standard types for Standard C++ library (namespace std), derived Data types (include array, function, pointer, and reference) and custom types or user-defined types (enum, class/struct, typedef).
 
@@ -25,7 +25,7 @@
         double    8B
         ptr       8B (on 64-bits system)
 
-2. What is "int overflow"?
+2. **What is "int overflow"?**
 
     Overflow is a phenomenon where operations on 2 numbers exceeds the maximum (or goes below the minimum) value the data type can have in memory. Usually it is thought that integral  types are very large and people don't take into account the fact that sum of two numbers can be larger than the range. But in things like scientific and mathematical computation, this can happen. For example, an unhandled arithmetic overflow in the engine steering software was the primary cause of the crash of the maiden flight of the Ariane 5 rocket. 
 
@@ -42,7 +42,7 @@
     Python instead has no limit on the size of the integer (but don't get happy about that, it's slow if you need a lot of those numbers).
     But floats do have limits: for double precision (which is used by default) you get and exponent (of 2) between -1022 and +1023 (-307 to 308 base 10) and ~16 decimal places.
 
-3. Why `using namespace std` might not be a good idea?
+3. **Why `using namespace std` might not be a good idea?**
 
     Name clashing btw imported libraries/namespaces.
     Alternative to this statement is to specify the namespace to which the identifier belongs using the scope operator(::) each time we declare a type. 
@@ -50,12 +50,12 @@
     - consider using typedefs: typedef std::cout cout_std;
     - import a single identifier. To import only std::cout we could use: using std::cout;
 
-4. Which header do you have to include for the access to `std::cout`?
+4. **Which header do you have to include for the access to `std::cout`?**
 
     `<iostream>` Tutte le funzioni e le classi sono dichiarate all'interno del namespace std.
     functions to handle the input and output stream in c++. This iostream header file contains various functions, including `std::cin`, `std::cout`, `std::endl`.
 
-5. what would be the simplest "legal" program in c++?
+5. **what would be the simplest "legal" program in c++?**
     ```
     int main(){} // named global func as it's the entry point for the wrapper of the linker.
     ```
@@ -72,13 +72,13 @@
     Via `echo $?` you can access the return type.
     Oss. `exit(1)` vs `return 1` -> return returns from the current function (like break) exit() terminates the whole program, wherever you call it from.
 
-6. what is the difference in c++ between `struct` and `class`?
+6. **what is the difference in c++ between `struct` and `class`?**
 
     If you don't specify public: or private:, members of a struct are public by default; members of a class are private by default
     struct are no C struct.
 
-7. What does `break` statement do in a loop in c++? you can break out of the loop with `break` 
-8. What does `continue` statement do in a loop? skip to the next iteration with `continue`
+7. **What does `break` statement do in a loop in c++?** you can break out of the loop with `break`
+8. **What does `continue` statement do in a loop?** skip to the next iteration with `continue`
 
     ```
     for (int i=0;i<7;i++){
@@ -92,7 +92,7 @@
         std::cout<< i <<" ";
     }
     ```  
-9. How do you define a static array of type int and size 7? R value or const, otherwise compiles but segmentation fault (run time error) (out of memory)
+9. **How do you define a static array of type int and size 7?** R value or const, otherwise compiles but segmentation fault (run time error) (out of memory)
     ```
     int N{5};
     const int NN{5};
@@ -100,7 +100,7 @@
     int arr2[N];//THIS COMPILES, BUT IS VERY BAD, DON'T DO IT
     int arr3[NN];
     ```
-10. What can you use to read interactive user input?
+10. **What can you use to read interactive user input?**
 
     From prompt:
     ```
@@ -164,7 +164,7 @@
         }
         ```
 
-11. What is a reference?
+11. **What is a reference?**
 
     A reference variable is an alias, that is, another name for an already existing variable. Once a reference is initialized with a variable, either the variable name or the reference name may be used to refer to the variable.
     It's a pointer that is soon dereferenced.
@@ -177,10 +177,10 @@
 
     A reference must be initialized when it is created. Pointers can be initialized at any time
 
-12. What is a difference between passing variables to functions by reference and by value?
+12. **What is a difference between passing variables to functions by reference and by value?**
     copies
 
-13. Why do we want to pass variables to functions by reference rather than by pointer?
+13. **Why do we want to pass variables to functions by reference rather than by pointer?**
     This is discouraged in C++ for "single variables" and can cause ambiguity and hard-to-catch bugs when you forget if it's an array or not, so avoid this unless you are using C-libraries. Arrays are already pointers and will always be passed "by pointer".
 
     ```
@@ -205,11 +205,11 @@
     }
 
     ```
-14. If the function accepts pointers (signature `int function(int* a)`), how do you pass a variable defined as `int x` to it?
+14. **If the function accepts pointers (signature `int function(int* a)`), how do you pass a variable defined as `int x` to it?**
 
     `int res = function(&x)` -> operatore di indirizzo
 
-15. Why do we want to use `const` modifier whenever possible?
+15. **Why do we want to use `const` modifier whenever possible?**
 
     `const` keyword specifies that a variable's value is constant and tells the compiler to prevent the programmer from modifying it.
     The const variable cannot be left un-initialized at the time of the assignment.
@@ -225,7 +225,7 @@
     Variables are passed to functions as const if we want to prevent them to be changed -> ex, print func 
     Also memeber func can be const if we promise not to modify any memeber variables: the object called by these functions cannot be modified.
 
-16. If you have a pointer named `p`, how do you access a value it points to? What is the name of that process?
+16. **If you have a pointer named `p`, how do you access a value it points to? What is the name of that process?**
     A pointer is a variable that stores the memory address of whatever it points to. It needs to have a type to know how to read that memory.
 
     ```
@@ -238,9 +238,9 @@
     std::cout<< *pointer << std::endl;
     ```
 
-17. What value is stored in the pointer variable itself? address `0x7ffee67f66f8`
+17. **What value is stored in the pointer variable itself? address `0x7ffee67f66f8`**
 
-18. What can you say about a function that has signature `void function()`?
+18. **What can you say about a function that has signature `void function()`?**
 
     A function is a block of code that performs some operation. It can take input parameters and it can return a value as output. If it doesn't return any value, it's return type is `void`. The simplest function you can write is:
 
@@ -248,39 +248,42 @@
     void function(){};
     ```
 
-19. What is an `auto` keyword?
+19. **What is an `auto` keyword?**
 
     If you are not sure which type the function returns or the return type is way too long, you use **auto** keyword.
-    Auto ias deduced by compiler at compile time (statically typed language)
+    Auto is deduced by compiler at compile time (statically typed language)
 
-20. What is function overloading?
-21. What is a recursive function?
-22. What is the role of a constructor in a class?
-23. How can we change private member variables of a class?
-24. How do you create an object file with `g++`?
-25. Why can't you just have eveything in one file?
-26. What is the purpose of a "header guard"?
-27. What does `-IFOLDER_NAME` mean when passed to `g++`?
-28. Do tabs matter in a `Makefile`?
-29. What does `$@` mean in a `Makefile`?
-30. What does `$^` mean in a `Makefile`?
-31. How to use `make` with a makefile that is not named `Makefile`?
-32. What does it mean if a function is a friend of a class?
-33. Why should non-class member operators be friends of classes?
-34. Which header do you need to include to work with files?
-35. How do you open a file in append mode?
-36. how do you allocate a dynamic array in C++?
-37. whats the difference between `delete` and `delete[]`?
-38. when do you need to overload assignment operator for your class?
-39. when do you need to create a copy constructor for your class?
-40. when do you need to create a move constructor for your class?
-41. what should you do if your class allocates resources, but you are sure you will never need a copy constructor?
-42. what are protected class members?
-43. what are virtual functions? 
-44. what is an abstract class?
-45. explain dynamic (runtime) polymorphism
-46. why destructors should be made virtual?
-47. what is this `[](){}()`?
-48. what's the general structure of a lambda function?
-49. what does "mutable" keyword do in a lambda function?
+20. **What is function overloading?**
+
+    You can have different functions with the same name if they have a different number or a different type of the input parameters.
+
+21. **What is a recursive function?**
+22. **What is the role of a constructor in a class?**
+23. **How can we change private member variables of a class?**
+24. **How do you create an object file with `g++`?**
+25. **Why can't you just have eveything in one file?**
+26. **What is the purpose of a "header guard"?**
+27. **What does `-IFOLDER_NAME` mean when passed to `g++`?**
+28. **Do tabs matter in a `Makefile`?**
+29. **What does `$@` mean in a `Makefile`?**
+30. **What does `$^` mean in a `Makefile`?**
+31. **How to use `make` with a makefile that is not named `Makefile`?**
+32. **What does it mean if a function is a friend of a class?**
+33. **Why should non-class member operators be friends of classes?**
+34. **Which header do you need to include to work with files?**
+35. **How do you open a file in append mode?**
+36. **how do you allocate a dynamic array in C++?**
+37. **whats the difference between `delete` and `delete[]`?**
+38. **when do you need to overload assignment operator for your class?**
+39. **when do you need to create a copy constructor for your class?**
+40. **when do you need to create a move constructor for your class?**
+41. **what should you do if your class allocates resources, but you are sure you will never need a copy constructor?**
+42. **what are protected class members?**
+43. **what are virtual functions?**
+44. **what is an abstract class?**
+45. **explain dynamic (runtime) polymorphism**
+46. **why destructors should be made virtual?**
+47. **what is this `[](){}()`?**
+48. **what's the general structure of a lambda function?**
+49. **what does "mutable" keyword do in a lambda function?**
 
