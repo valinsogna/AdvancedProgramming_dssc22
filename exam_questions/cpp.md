@@ -111,16 +111,13 @@
     std::cin >> x;
 
     ```
-
     The `>>` is called "extraction operator".
     You can read more than one number if the user inputs them with spaces:
-
     ```
     int x{0},y{0};
     std::cin >> x >>y;
     ```
     To check types:
-
     ```
     #include <sstream>
     #include <iostream>
@@ -139,8 +136,33 @@
       return 0;
     }
     ```
-
     (the result will essentally be identical to calling `std::cin>>` twice)
+
+    ```
+    #include <getopt.h>
+    int main(int argc, char * const argv[]) { 
+    
+        //c-style way to parse parameters
+        //they should be passed like "-a 1 -b 9"
+        int a{0}, b{0}, c{0}, d{0};
+        int res{0};
+        while( (res = getopt(argc, argv, "a:b:c:d:") ) != -1 ) {
+            switch(res){
+                case 'a':
+                    a = std::atoi(optarg);
+                    break;
+                case 'b':
+                    b = std::atoi(optarg) ;
+                    break;
+                case 'c':
+                    c = std::atoi(optarg) ;
+                    break;
+                case 'd':
+                    d = std::atoi(optarg) ;
+                    break;
+            }
+        }
+        ```
 
 11. What is a reference?
 12. What is a difference between passing variables to functions by reference and by value?
