@@ -64,8 +64,6 @@ def calculate_time(func):
         print("Total time taken in : ", func.__name__, end - begin)
  
 return inner1
-```
- 
  
 # this can be added to any function present,
 # in this case to calculate a factorial
@@ -79,6 +77,7 @@ def factorial(num):
  
 # calling the function.
 factorial(10)
+```
 
 22. Name two ways of calling c++ code from python.
 
