@@ -1,4 +1,4 @@
-1. **Name at least 5 variable types in c++**
+## **Name at least 5 variable types in c++**
 
 In c++ there are built-in types know by the compiler, standard types for Standard C++ library (namespace std), derived Datatypes (include array, function, pointer, and reference) and custom types or user-defined types (enum, class/struct,typedef).
 Oss. long, short,signed,unsigned are modifiers.
