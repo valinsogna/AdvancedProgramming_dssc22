@@ -452,8 +452,72 @@ delete[] p;
 Exception of type `bad_alloc` is thrown when the allocation fails
 
 37. **whats the difference between `delete` and `delete[]`?** 1 or more var pointed
-38. **when do you need to overload assignment operator for your class?**
+38. **when do you need to overload assignment operator for your class?** 
 
+The copy assignment operator (operator=) is used to copy values from one object to another already existing object.
+
+Class with raw and smart ptrs: compiler doesn't know how to make a "deep copy".
+It copies only memebers (data) (shallow copy), it compiles but then crashes cause it calls twice.
+
+```c++
+template <typename T>
+class MyClass{
+public:
+    T* data;
+    MyClass(const int& N);
+    ~MyClass();
+};
+
+template<typename T> 
+    MyClass<T>::MyClass(const int& N) {
+    data=new T[N];
+    for(int i=0;i<N;i++){
+        data[i]=i;
+    }
+}
+
+template<typename T> 
+    MyClass<T>::~MyClass() {
+    delete[] data;
+    data=nullptr;
+}
+```
+
+This might be enough as a "minimal survival", but what happens if you do
+
+```c++
+MyClass A(10),B(10);
+A=B;
+```
+?
+
+It will crash.
+The compiler doesn't know how to make a "deep copy", you need to tell it:
+
+```c++
+template <typename T>
+CMyClass<T>& CMyClass<T>::operator=(const CMyClass<T>& p){
+//first check for self-assignment
+if (this != &p) { 
+//copy non-dynamic variables
+	size=p.size;
+//free memory of existing dynamic variables
+	if (data != nullptr){
+		delete[] data;
+		data=nullptr;
+    }	
+//create and copy dynamic variables
+	if(p.data==nullptr){data=nullptr;}
+	else{
+		data = new T[size];
+		for(int i=0;i<size;i++){
+			data[i]=p.data[i];
+        };
+	}//else	
+}//of cheking for self-assignement
+return *this;
+};
+```
 
 39. **when do you need to create a copy constructor for your class?**
 
