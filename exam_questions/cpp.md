@@ -440,6 +440,12 @@ filevar.open("test.txt", std::ios_base::app);
 36. **how do you allocate a dynamic array in C++?**
 
 On the Heap like C m/calloc, contiguos in memory.
+kernel space 0xFFFFFFFF
+stack
+heap
+global and static variables
+executable code (all routines) 0x00000000
+
 There is a substantial difference between declaring a normal array and allocating dynamic memory for a block of memory using `new`. 
 The most important difference is that the size of a regular array needs to be a **constant expression**, and thus its size has to be determined at the moment of designing the program, before it is run, whereas the dynamic memory allocation performed by new allows to assign memory during runtime using any variable value as size.
 
@@ -463,20 +469,22 @@ It copies only memebers (data) (shallow copy), it compiles but then crashes caus
 template <typename T>
 class MyClass{
 public:
+    size_t size;
     T* data;
     MyClass(const int& N);
-    ~MyClass();
+    ~MyClass(); // don't need with unique_ptr
 };
 
 template<typename T> 
     MyClass<T>::MyClass(const int& N) {
-    data=new T[N];
+    data=new T[N]; //data=std::make_unique<int[]>(N);
+    size = N;
     for(int i=0;i<N;i++){
         data[i]=i;
     }
 }
 
-template<typename T> 
+template<typename T> //don't need with unique_ptr
     MyClass<T>::~MyClass() {
     delete[] data;
     data=nullptr;
@@ -501,15 +509,15 @@ CMyClass<T>& CMyClass<T>::operator=(const CMyClass<T>& p){
 if (this != &p) { 
 //copy non-dynamic variables
 	size=p.size;
-//free memory of existing dynamic variables
+//free memory of existing dynamic variables: don't need with unique_ptr
 	if (data != nullptr){
 		delete[] data;
 		data=nullptr;
     }	
 //create and copy dynamic variables
-	if(p.data==nullptr){data=nullptr;}
-	else{
-		data = new T[size];
+	if(p.data==nullptr){data=nullptr;} //don't need with unique_ptr
+	else{//don't need with unique_ptr
+		data = new T[size]; //data.reset(new T[size]); per unique_ptrss
 		for(int i=0;i<size;i++){
 			data[i]=p.data[i];
         };
@@ -519,24 +527,324 @@ return *this;
 };
 ```
 
-39. **when do you need to create a copy constructor for your class?**
+39. **when do you need to create a copy constructor for your class?** when you want to pass a class by value in a func!
 
+Class with ptrs need copy ctor,assign and if raw also destructor.
 
+```c++
+// No need to free memory of existing dynamic variables
+template<typename T> 
+CMyClass<T>::CMyClass ( const CMyClass<T>& p ) { //don't modify p
+    std::cout<<"copy constructor called"<<std::endl;
+//first check for self-assignment
+if (this != &p) { 
+//copy non-dynamic variables
+	size=p.size;
+//create and copy dynamic variables
+	if(p.data==nullptr){data=nullptr;} //don't need for unique_ptr
+	else{ //don't need for unique_ptr
+		data = new T[size]; // data.reset(new T[size]); for unique_ptr
+		for(int i=0;i<size;i++){
+			data[i]=p.data[i];
+        };
+	}//else
+	
+}//of cheking for self-assignement
+    
+}//copy constructor
+```
+Nel main:
+```c++
+CMyClass<int> obj(10);
+CMyClass<int> obj(obj2);
+func(obj);// copy ctor + dector
+```
 
-40. **when do you need to create a move constructor for your class?**
+40. **when do you need to create a move constructor for your class?** steels resource to another and delete them
 
+Sometimes you mihgt want to "move" your object instead of copying it (for example, if the object was temporary). There is `std::move` that does that for standard objects and can also do that for you if you create a move constructor and move assignment operator
 
+```c++
+template<typename T> 
+CMyClass<T>::CMyClass ( CMyClass<T> && p ) { //modify p!!!!
+     std::cout<<"move constructor called"<<std::endl;
+//first check for self-assignment
+if (this != &p) { 
+//copy non-dynamic variables
+	size=p.size;
+    p.size=0;
+//create and copy dynamic variables
+    data=p.data; // data=std::move(p.data); for unique_ptr
+    p.data=nullptr; // no need to delete for unique_ptr
+}//of checking for self-assignment
+    
+}
+}
+```
+In main:
+```c++
+CMyClass<int> obj(10);
+CMyClass<int> obj3(10);
+auto obj2=std::move(obj); //move constructor called
+obj2=std::move(obj3); //move assignment operator called
+``` 
 
 41. **what should you do if your class allocates resources, but you are sure you will never need a copy constructor?**
+A general rule is that, if you are having pointers in your class and need a destructor, you also need to overload assignment operator and the copy constructor. If you are sure that you will never use them, make them delete, otherwise you or someone else later might try to do unexpected things with your class and get a strange crash instead of a clear error message. So, do:
 
-
+```c++
+CMyClass& operator=(const CMyClass& p) = delete;
+```
 
 42. **what are protected class members?** like privates but derived can access them
 43. **what are virtual functions?**
-44. **what is an abstract class?**
-45. **explain dynamic (runtime) polymorphism**
+
+Instead of overloading the functions (happens at compile time), you can override them. This requires a `virtual` keyword.
+
+
+A class that declares or inherits a virtual function is called a polymorphic class.
+
+```c++
+#include <iostream>
+
+class Polygon {
+  protected:
+    int width, height;
+  public:
+    void set_values (int a, int b)
+      { width=a; height=b; }
+    virtual int area (){ 
+        return 0; 
+    }
+ //  virtual int area ()=0;//makes the class abstract, then you can't have an object of it
+    
+};
+
+class Rectangle: public Polygon {
+  public:
+      //override helps compiler and makes sure you don't type anything wrong
+    int area() override{ 
+        return width * height;
+    }
+};
+```
+44. **what is an abstract class?** 
+
+`virtual int area ()=0;//makes the class abstract, then you can't have an object of it` at least one.
+It's used for interface only purposes. Virtual functions must be overriden in derived classes, otherwise they become abstract too.
+
+45. **explain dynamic (runtime) polymorphism** a pointer to virtual table func is added to your class VTB
+
+a pointer to a derived class is type-compatible with a pointer to its base class. This is called runtime or dynamic polymorhism and is one of the key features of the object oriented design. (It's mostly not recommended in high performace applications, as it's slow.) VTF
+
 46. **why destructors should be made virtual?**
-47. **what is this `[](){}()`?**
+
+Base -> (dctor)
+Derived -> deals with memory (raw ptr) + dctor (delete)
+
+=> Need to make virtual dctor of Base class! Otherwise memeory leak and dctor of Derived class is not called!
+```c++
+CDerived1<int>* c1 = new CDerived1<int>(12);
+CBase1<int>* ptr=c1; //ONLY base dctor called, no derived dctor called, memory leak!!: if I add virtual both are called
+delete ptr;
+```
+
+47. **what is this `[](){}()`?** This defines and calls a lamda function that takes no input, does nothing and can't even be called later as it has no name.
 48. **what's the general structure of a lambda function?**
+
+The general possible structure of a lambda function is 
+
+```
+[CAPTURES](PARAMETERS)->RETURN_TYPE{WHAT THE FUNCTION DOES}();
+```
+
+You can "capture" existing variables: get access to var defined in scope
+
+ - [] 	Empty capture list, nothing will be captured.
+ - [something] 	Capture `something` by copy.
+ - [&something] 	Capture something by reference.
+ - [x, &y] 	Capture y by-copy and y by-reference.
+ - [=] 	Capture anything named from the enclosing scope by-copy.
+ - [&] 	Capture anything named from the enclosing scope by-reference.
+ - [&, x, y] 	Capture anything named from the enclosing scope by reference, except x and y which are captured by-copy.
+ - [=, &x] 	Capture anything named from the enclosing scope by copy, except x which must be captured by-reference
+
+Since we are using lambdas outside of STL, we probably need to give them names. The easiest way is let the compiler decide the type for you (it's actually different for each function)
+
+```c++
+auto func = [](int i){ return i; };
+```
+
 49. **what does "mutable" keyword do in a lambda function?**
 
+The things captured by value are captured at the moment the lambda was created, not when it was called. Also, you can't change them by default. To do that, you need a keyword `mutable`
+
+```c++
+int a{0};
+auto very_useful_lambda = [a]() mutable {a=a+2;
+    std::cout << a << std::endl;
+};
+```
+
+Now let's look at how to use them with algorithms:
+
+```c++
+int count{0};
+//unfortunately, you need an external variable for index
+std::generate(vec.begin(),vec.end(),[&count]{count++;return count*count;});
+   
+//sort wants a function that accepts two parameters and compares them
+std::sort(vec.begin(),vec.end(),[](int x,int y){return x>y;});
+  
+//for_each can be replaced by a range loop usually
+std::for_each(vec.begin(),vec.end(),[](int i){std::cout<<i<<std::endl;});
+
+
+std::transform(vec.begin(),vec.end(),vec2.begin(),[](int& x){return x+2;});
+```
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+```c++
+//using "this" is one of the ways to get around templated var in base class: 
+std::cout<<this->field1<<" "<<this->field2<<" "<<std::endl; 
+```
+
+C fucntions `rand()` and `srand()` are also available, but use: `std::default_random_engine dre(seed);//engine`
+
+### Various Topics: timing
+
+You can use the `std::chrono` from the header `chrono`. The old c-style timing from `<ctime>` header also works, but is less accurate and less flexible for uses with modern interfaces, so we will not discuss any examples from it. To start the timings, do:
+
+```c++
+  std::chrono::time_point<std::chrono::steady_clock> t_start;
+  t_start = std::chrono::steady_clock::now();//we could just use auto
+```
+
+To end:
+
+```c++
+auto t_end = std::chrono::steady_clock::now();
+auto total = std::chrono::duration_cast<std::chrono::microseconds>(t_end - t_start).count();
+```
+
+There are other clocks in `chrono`, for example `system_clock` and `high_resolution_clock`, but the first one depends on your laptop time and might give surprises if it changes during the execution (for example, corrected from time server) and the second one is implementation-dependent, so you never know what it really is.
+
+Since we want to write c++, let's introduce the concept of "scoped timer" - the timer that calls it's desctructor when going out of scope and saves you from typing the time difference manually every time. The simplest example is in the file `simple_timer.cpp`
+
+```c++
+class CSimple_Timer{
+  std::chrono::time_point<std::chrono::steady_clock> t_start;
+  std::string time_what;
+  void print_time(){
+    auto t_end = std::chrono::steady_clock::now();
+    auto total = std::chrono::duration_cast<std::chrono::milliseconds>(t_end - t_start).count();
+    std::cout<<time_what<<" took " <<total<< " milliseconds"<<std::endl;
+  }
+public:
+  CSimple_Timer(std::string s):
+					 t_start{std::chrono::steady_clock::now()},
+					 time_what{s} {}
+  ~CSimple_Timer() { print_time();}
+};
+```
+
+Here in the desctructor we print the time of what was executed while the timer object existed. This is also a nice example of a destrucor that doesn't just free memory, but actually does something else.
+
+However, this timer is still not "good enough" if we want to measure the same things repeatedly. We need something that could keep track of different timer calls and print the result summary at the end. The solution for this is included in the `timer.cpp` file. 
+
+ - **what's the main advantage of using templates?**
+
+What if you want to write a function to print different types of data? You would need to overload your `print()` function for every type you are going to use it with. It becomes cumbersome very fast and makes code hard to maintain if new types are added. Luckily, in c++ there is an easy solution: templates.
+The type needed will be deduced from the argument. If you want to have a different type from what the compiler would normally assume, you can specify that:
+
+```c++
+double a{3.9};
+print<int>(a);
+```
+
+You can also have different templated arguments if you need. 
+
+ - **why do people usually put definitions of templated functions directly into `.hpp` files?**
+
+ Templates need to be "instantiated" by the compiler at compile time, thus if you separate the declarations and definitions into different files as is done in `C`, you have to instatiate it manually. In many cases, that almost defeats the purpose of using templates and, unless working with projects where you care for executable size, can be avoided by simply creating **"a header only library"**, that is, putting all the function/class definitions entirely into header files.
+
+ - **except on types, what else can we template on?** interger numbers
+
+ ```c++
+template <typename T, short int N>
+void add_number(T& var){
+    var=var+N;
+}
+
+int main(){
+    double b{4.7};
+    add_number<double,7>(b);
+    std::cout<<b<<std::endl;
+    return 0;
+}
+```
+
+ - **what is template specialization?**
+
+ You can make the compiler produce very different functions based on the type. This is useful when dealing with old C-interface or when some operations are not permitted for certain types.
+
+```c++
+#include <typeinfo>
+
+template <typename T>
+void CMyClass<T>::Function(){
+    if constexpr(std::is_same_v<int,T>){// compile time
+        std::cout<<"we are dealing with int"<<std::endl;
+    }
+    if constexpr(std::is_same_v<double,T>){
+        std::cout<<"we are dealing with double"<<std::endl;
+    }
+    if constexpr(std::is_integral_v<T>){
+        std::cout<<"something \"integer\" "<<std::endl;
+    }else{
+        std::cout<<"something non \"integer\" "<<std::endl;
+    }
+}
+
+```
+ - **what is a variadic template?**
+
+ You can template on a variable number of arguments, for example if you wanted to have a function that can be called as
+
+```c++
+myPrint(1,2,"Hi",9.0);
+myPrint('c', 1.4, 9,0, "kjhkjhkjh");
+
+```
+
+First, you need to write a "normal" print function:
+
+```c++
+template <typename T>
+void myPrint(const T& arg){
+     std::cout<<arg<<" ";
+}
+```
+
+Then, you use `...` (ellipsis) to tell the compiler that the number of variables can change:
+
+```c++
+template <typename T, typename... Types>
+void myPrint(const T& arg, const Types&... args){
+    std::cout<<arg<<" ";
+    myPrint(args...);
+}
+```
+You need the "normal" print function here to stop the recursion.
+
+ - **why using `push_back` for `std::vector` is a bad idea?**
+
+it's easy to lose perfomance if you don't know what you are doing. Specifically, there is a handy function `push_back`, which should be used with caution or outright avoided when speed matters.
+
+What happens behind the scnenes is that the vector will reserve the memory for itself with what it believs as "enough", then allocate new elemement in that area. Once it runs out of reserved memory, it will *copy eveything to a new location*, which you obvioulsy want to avoid when working with anything big.
+
+So, when working with vectors in hpc, try to treat them like arrays and awaid resizing more than once. Always use `resize(NUMBER)` function, then fill in the values normally. As an alternative, you can call `reserve(NUMBER)` and then do `push_back`, but this way it's not always clear when the vector decides it's time to "move", it's safer to stick with "resize()".
+ - **how do you pass data from `std::vector` to a "C-style" function that needs a pointer?** either as `&myvec[0]` or `myvec.data()`.
+ - **why you shouldn't use a "vector of vectors"?**
+You want the data to be contiguous in memory, so never use something like  `std::vector<std::vector<int>>`. Use one-dimensional storage instead and access the `(i,j)` elements as `data[i*N+j]`.
